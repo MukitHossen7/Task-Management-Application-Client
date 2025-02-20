@@ -45,11 +45,6 @@ const Navbar = () => {
                   Login
                 </button>
               </Link>
-              <Link to="/register">
-                <button className="bg-blue-600 px-3 py-2 rounded-md text-gray-50 ">
-                  Register
-                </button>
-              </Link>
             </div>
           )}
         </div>
