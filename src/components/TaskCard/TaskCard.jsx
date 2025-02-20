@@ -2,11 +2,22 @@ import { useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
 import UpdateModal from "../UpdateModal/UpdateModal";
+import useAxiosInstance from "../../hooks/useAxiosInstance";
 
 /* eslint-disable react/prop-types */
 const TaskCard = ({ task, refetch }) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const axiosInstance = useAxiosInstance();
+  const handleDelete = async (delId) => {
+    try {
+      await axiosInstance.delete(`/tasks/${delId}`);
+    } catch (err) {
+      console.error(err);
+      // Handle error here
+    } finally {
+      refetch();
+    }
+  };
   return (
     <div className="flex items-center justify-between gap-3 cursor-grab bg-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md">
       <div>
@@ -17,7 +28,9 @@ const TaskCard = ({ task, refetch }) => {
         <button onClick={() => setIsOpen(true)}>
           <FiEdit className="text-blue-600 text-lg" />
         </button>
-        <MdDeleteForever className="text-red-500 text-2xl" />
+        <button onClick={() => handleDelete(`${task._id}`)}>
+          <MdDeleteForever className="text-red-500 text-2xl" />
+        </button>
       </div>
       {isOpen && (
         <UpdateModal
