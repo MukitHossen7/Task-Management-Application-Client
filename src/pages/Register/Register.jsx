@@ -7,10 +7,12 @@ import { Link, useNavigate } from "react-router-dom";
 import registerImg from "../../assets/Authentication-rafiki.svg";
 import { AuthContext } from "../../providers/AuthProvider";
 import toast from "react-hot-toast";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 const Register = () => {
   const { registerUsers, updateUserProfile, setRefetch, googleUser } =
     useContext(AuthContext);
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
   const [signToggle, setSignToggle] = useState(false);
   const {
     register,
@@ -24,13 +26,19 @@ const Register = () => {
     const email = data.email;
     const password = data.password;
     try {
-      await registerUsers(email, password);
+      const { user } = await registerUsers(email, password);
       await updateUserProfile({
         displayName: name,
         photoURL: photo,
       });
       setRefetch(Date.now());
       toast.success("Signup Successfully");
+      const userData = {
+        name: user?.displayName,
+        email: user?.email,
+        photo: user?.photoURL,
+      };
+      await axiosPublic.post(`/users`, userData);
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -42,9 +50,15 @@ const Register = () => {
   };
   const handleSignUpGoogle = async () => {
     try {
-      await googleUser();
+      const { user } = await googleUser();
       toast.success("Google Signup successful");
       navigate("/");
+      const userData = {
+        name: user?.displayName,
+        email: user?.email,
+        photo: user?.photoURL,
+      };
+      await axiosPublic.post(`/users`, userData);
     } catch (error) {
       console.log(error);
       toast.error("Google Signup failed please try again");

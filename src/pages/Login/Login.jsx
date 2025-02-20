@@ -7,9 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import loginImg from "../../assets/undraw_fingerprint_kdwq.svg";
 import { AuthContext } from "../../providers/AuthProvider";
 import toast from "react-hot-toast";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 const Login = () => {
   const { loginUsers, googleUser } = useContext(AuthContext);
   const [signToggle, setSignToggle] = useState(false);
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   const {
     register,
@@ -37,9 +39,15 @@ const Login = () => {
   };
   const handleLoginGoogle = async () => {
     try {
-      await googleUser();
+      const { user } = await googleUser();
       toast.success("Google Login successful");
       navigate("/");
+      const userData = {
+        name: user?.displayName,
+        email: user?.email,
+        photo: user?.photoURL,
+      };
+      await axiosPublic.post(`/users`, userData);
     } catch (error) {
       console.log(error);
       toast.error("Google Login failed please try again");
