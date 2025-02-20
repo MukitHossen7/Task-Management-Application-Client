@@ -2,21 +2,20 @@
 import { useState } from "react";
 import useAxiosInstance from "../../hooks/useAxiosInstance";
 
-const Modal = ({ isOpen, setIsOpen, refetch }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("TODO");
+const UpdateModal = ({ isOpen, setIsOpen, task, refetch }) => {
   const axiosInstance = useAxiosInstance();
+  const [status, setStatus] = useState(task?.status);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const taskData = {
+    const title = e.target.title.value;
+    const description = e.target.description.value;
+    const editTask = {
       title,
       description,
       status,
     };
-    console.log(taskData);
     try {
-      await axiosInstance.post(`/tasks`, taskData);
+      await axiosInstance.put(`/tasks/${task._id}`, editTask);
     } catch (err) {
       console.error(err);
       // Handle error here
@@ -25,17 +24,19 @@ const Modal = ({ isOpen, setIsOpen, refetch }) => {
       refetch();
     }
   };
+  console.log(task);
   return (
     <div>
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-xl font-bold mb-4">Add New Task</h2>
+            <h2 className="text-xl font-bold mb-4">Edit Task</h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               {/* Title */}
               <input
+                defaultValue={task?.title}
                 type="text"
-                onChange={(e) => setTitle(e.target.value)}
+                name="title"
                 maxLength={50}
                 placeholder="Enter task title..."
                 required
@@ -44,7 +45,8 @@ const Modal = ({ isOpen, setIsOpen, refetch }) => {
 
               {/* Description */}
               <textarea
-                onChange={(e) => setDescription(e.target.value)}
+                defaultValue={task?.description}
+                name="description"
                 maxLength={200}
                 placeholder="Enter task description (optional)..."
                 className="border p-2 rounded-md w-full"
@@ -53,11 +55,14 @@ const Modal = ({ isOpen, setIsOpen, refetch }) => {
 
               {/* Category */}
               <select
-                value={status}
+                defaultValue={task?.status}
                 onChange={(e) => setStatus(e.target.value)}
                 className="border p-2 rounded-md w-full"
                 required
               >
+                <option disabled value="Select Category">
+                  Select Category
+                </option>
                 <option value="TODO">TODO</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Done">Done</option>
@@ -87,4 +92,4 @@ const Modal = ({ isOpen, setIsOpen, refetch }) => {
   );
 };
 
-export default Modal;
+export default UpdateModal;
