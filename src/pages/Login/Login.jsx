@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoEyeSharp } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginImg from "../../assets/undraw_fingerprint_kdwq.svg";
+import { AuthContext } from "../../providers/AuthProvider";
+import toast from "react-hot-toast";
 const Login = () => {
+  const { loginUsers, googleUser } = useContext(AuthContext);
   const [signToggle, setSignToggle] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-
+    reset,
     formState: { errors },
   } = useForm();
   const handleLogin = async (data) => {
@@ -18,6 +22,30 @@ const Login = () => {
     const password = data.password;
 
     console.log(email, password);
+
+    try {
+      await loginUsers(email, password);
+      toast.success("Login successfully");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      toast.error("Invalid Credential Email/Password");
+    } finally {
+      reset();
+      // setLoading(false);
+    }
+  };
+  const handleLoginGoogle = async () => {
+    try {
+      await googleUser();
+      toast.success("Google Login successful");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      toast.error("Google Login failed please try again");
+    } finally {
+      // setLoading(false);
+    }
   };
   const handleToggleSignBtn = () => {
     setSignToggle(!signToggle);
@@ -113,7 +141,7 @@ const Login = () => {
             </p>
             <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
           </div>
-          <button>
+          <button onClick={handleLoginGoogle}>
             <div className="flex justify-center items-center gap-2 rounded-md  border m-3 p-2 border-blue-700 border-rounded cursor-pointer">
               <FcGoogle className="text-2xl" />
               Continue with Google
@@ -125,7 +153,7 @@ const Login = () => {
               to="/register"
               className="hover:underline hover:text-blue-500 text-gray-600"
             >
-              Sign up
+              Register
             </Link>
             .
           </p>

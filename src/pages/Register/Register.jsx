@@ -1,16 +1,21 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoEyeSharp } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import registerImg from "../../assets/Authentication-rafiki.svg";
+import { AuthContext } from "../../providers/AuthProvider";
+import toast from "react-hot-toast";
 const Register = () => {
+  const { registerUsers, updateUserProfile, setRefetch, googleUser } =
+    useContext(AuthContext);
+  const navigate = useNavigate();
   const [signToggle, setSignToggle] = useState(false);
   const {
     register,
     handleSubmit,
-
+    reset,
     formState: { errors },
   } = useForm();
   const handleSignup = async (data) => {
@@ -18,7 +23,32 @@ const Register = () => {
     const name = data.name;
     const email = data.email;
     const password = data.password;
-    console.log(name, email, password, photo);
+    try {
+      await registerUsers(email, password);
+      await updateUserProfile({
+        displayName: name,
+        photoURL: photo,
+      });
+      setRefetch(Date.now());
+      toast.success("Signup Successfully");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      toast.error("Email already in use");
+    } finally {
+      reset();
+      // setLoading(false);
+    }
+  };
+  const handleSignUpGoogle = async () => {
+    try {
+      await googleUser();
+      toast.success("Google Signup successful");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      toast.error("Google Signup failed please try again");
+    }
   };
   const handleToggleSignBtn = () => {
     setSignToggle(!signToggle);
@@ -64,7 +94,7 @@ const Register = () => {
                 </label>
                 <div className="flex flex-col">
                   <input
-                    type="text"
+                    type="url"
                     {...register("image", { required: true })}
                     placeholder="Enter Your images"
                     className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-blue-500  text-gray-900"
@@ -144,7 +174,7 @@ const Register = () => {
                 type="submit"
                 className="hover:bg-gradient-to-l bg-gradient-to-r from-blue-600 to-blue-800 w-full rounded-md py-3 text-gray-100"
               >
-                SignUp
+                Register
               </button>
             </div>
           </form>
@@ -155,7 +185,10 @@ const Register = () => {
             </p>
             <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
           </div>
-          <button className="flex justify-center items-center gap-1 rounded-md border m-3 p-2 border-blue-700 border-rounded cursor-pointer">
+          <button
+            onClick={handleSignUpGoogle}
+            className="flex justify-center items-center gap-1 rounded-md border m-3 p-2 border-blue-700 border-rounded cursor-pointer"
+          >
             <FcGoogle className="text-2xl" />
             Continue with Google
           </button>
