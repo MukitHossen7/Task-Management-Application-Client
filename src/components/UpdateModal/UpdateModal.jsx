@@ -16,15 +16,14 @@ const UpdateModal = ({ isOpen, setIsOpen, task, refetch }) => {
     };
     try {
       await axiosInstance.put(`/tasks/${task._id}`, editTask);
+      setIsOpen(false);
+      refetch();
     } catch (err) {
       console.error(err);
       // Handle error here
-    } finally {
-      setIsOpen(false);
-      refetch();
     }
   };
-  console.log(task);
+
   return (
     <div>
       {isOpen && (

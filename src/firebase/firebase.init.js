@@ -12,10 +12,3 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 export default auth;
-
-// apiKey: "AIzaSyDSRvdguD3Rnu81cAgwv-UNttPXnYAjCKY",
-// authDomain: "task-management-applicat-d6752.firebaseapp.com",
-// projectId: "task-management-applicat-d6752",
-// storageBucket: "task-management-applicat-d6752.firebasestorage.app",
-// messagingSenderId: "474236759269",
-// appId: "1:474236759269:web:53b77c51c11e3bba7cf80c"
