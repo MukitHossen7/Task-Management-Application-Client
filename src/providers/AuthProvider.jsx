@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "./../firebase/firebase.init";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 export const AuthContext = createContext();
 // eslint-disable-next-line react/prop-types
@@ -16,6 +17,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refetch, setRefetch] = useState();
+  const axiosPublic = useAxiosPublic();
   const googleProvider = new GoogleAuthProvider();
 
   const registerUsers = (email, password) => {
@@ -43,7 +45,24 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       console.log(currentUser);
-      setLoading(false);
+      if (currentUser?.email) {
+        const users = { email: currentUser?.email };
+        axiosPublic
+          .post(`/jwt`, users, {
+            withCredentials: true,
+          })
+          .then((res) => {
+            console.log(res.data);
+            setLoading(false);
+          });
+      } else {
+        axiosPublic
+          .post(`/logout`, {}, { withCredentials: true })
+          .then((res) => {
+            console.log(res.data);
+            setLoading(false);
+          });
+      }
     });
     return () => {
       unsubscribe();
