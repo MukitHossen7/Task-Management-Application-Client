@@ -1,3 +1,4 @@
+// /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
@@ -18,6 +19,7 @@ const TaskCard = ({ task, refetch }) => {
       refetch();
     }
   };
+  // console.log(typeof task._id);
   return (
     <div className="flex items-center justify-between gap-3 cursor-grab bg-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md">
       <div>

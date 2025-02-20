@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
+// /* eslint-disable react/prop-types */
 
 import TaskCard from "../TaskCard/TaskCard";
 
-// eslint-disable-next-line react/prop-types
 const Column = ({ column, tasks, refetch }) => {
   return (
     <div className="flex w-full flex-col rounded-lg bg-gray-100 p-4">

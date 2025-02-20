@@ -19,6 +19,7 @@ const Home = () => {
       return data;
     },
   });
+
   return (
     <div className="w-10/12 md:w-10/12 lg:w-10/12 xl:container mx-auto my-10 flex flex-col items-center">
       {/* Add Task Button */}

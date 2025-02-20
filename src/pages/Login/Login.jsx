@@ -84,6 +84,7 @@ const Login = () => {
                   </label>
                 </div>
                 <input
+                  value="mukit@gmail.com"
                   type="email"
                   {...register("email", { required: true })}
                   placeholder="Enter Your Email Here"
@@ -106,6 +107,7 @@ const Login = () => {
                   </label>
                 </div>
                 <input
+                  value="1412Mu@"
                   type={signToggle ? "text" : "password"}
                   {...register("password", { required: true })}
                   autoComplete="current-password"
