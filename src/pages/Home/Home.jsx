@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Column from "../../components/Column/Column";
+import Modal from "../../components/Modal/Modal";
 
 const Home = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const columns = [
     { id: "TODO", title: "To Do" },
     { id: "In Progress", title: "In Progress" },
@@ -73,8 +75,15 @@ const Home = () => {
   ];
   const [tasks, setTasks] = useState(initialTask);
   return (
-    <div className="w-10/12 md:w-10/12 lg:w-10/12 xl:container mx-auto my-10">
-      <div className="flex flex-col lg:flex-row  gap-8">
+    <div className="w-10/12 md:w-10/12 lg:w-10/12 xl:container mx-auto my-10 flex flex-col items-center">
+      {/* Add Task Button */}
+      <button
+        onClick={() => setIsOpen(true)}
+        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+      >
+        Add Task
+      </button>
+      <div className="flex flex-col lg:flex-row gap-8 mt-4">
         {columns.map((column) => (
           <Column
             key={column.id}
@@ -83,6 +92,7 @@ const Home = () => {
           ></Column>
         ))}
       </div>
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen}></Modal>
     </div>
   );
 };
