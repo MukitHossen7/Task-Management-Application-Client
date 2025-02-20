@@ -73,13 +73,13 @@ const UpdateModal = ({ isOpen, setIsOpen, task, refetch }) => {
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500"
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-600"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 >
                   Submit
                 </button>
