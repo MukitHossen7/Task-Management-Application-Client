@@ -2,7 +2,7 @@
 
 ## Description
 
-- The **Task Management Application** is a productivity tool designed to help users organize their tasks efficiently. The application allows users to add, edit, delete. Tasks are categorized into three sections: **To-Do**, **In Progress**, and **Done**, and all changes are saved in real-time to the database. The app features a minimalistic, intuitive, and fully responsive UI, ensuring a seamless experience on both desktop and mobile devices.
+- The Task Management Application is a productivity tool designed to efficiently organize tasks. It supports task creation, editing, and deletion, with real-time database updates. Tasks are categorized into To-Do, In Progress, and Done. Featuring a clean, intuitive, and fully responsive interface, it ensures seamless use on both desktop and mobile devices for enhanced productivity.
 
 ## Live Site URL :
 
