@@ -1,13 +1,28 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import useAxiosInstance from "../../hooks/useAxiosInstance";
 
 const Modal = ({ isOpen, setIsOpen }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("To-Do");
-  const handleSubmit = (e) => {
+  const [status, setStatus] = useState("To-Do");
+  const axiosInstance = useAxiosInstance();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ title, description, category });
+    const taskData = {
+      title,
+      description,
+      status,
+    };
+    console.log(taskData);
+    try {
+      await axiosInstance.post(`/tasks`, taskData);
+    } catch (err) {
+      console.error(err);
+      // Handle error here
+    } finally {
+      setIsOpen(false);
+    }
   };
   return (
     <div>
@@ -19,7 +34,6 @@ const Modal = ({ isOpen, setIsOpen }) => {
               {/* Title */}
               <input
                 type="text"
-                value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 maxLength={50}
                 placeholder="Enter task title..."
@@ -29,7 +43,6 @@ const Modal = ({ isOpen, setIsOpen }) => {
 
               {/* Description */}
               <textarea
-                value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 maxLength={200}
                 placeholder="Enter task description (optional)..."
@@ -39,12 +52,12 @@ const Modal = ({ isOpen, setIsOpen }) => {
 
               {/* Category */}
               <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
                 className="border p-2 rounded-md w-full"
                 required
               >
-                <option value="To-Do">To-Do</option>
+                <option value="TODO">To-Do</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Done">Done</option>
               </select>
