@@ -23,14 +23,12 @@ const Login = () => {
     const email = data.email;
     const password = data.password;
 
-    console.log(email, password);
-
     try {
       await loginUsers(email, password);
       toast.success("Login successfully");
       navigate("/");
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Invalid Credential Email/Password");
     } finally {
       reset();
@@ -49,7 +47,7 @@ const Login = () => {
       };
       await axiosPublic.post(`/users`, userData);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Google Login failed please try again");
     } finally {
       // setLoading(false);

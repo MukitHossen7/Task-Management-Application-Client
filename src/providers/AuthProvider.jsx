@@ -44,7 +44,6 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log(currentUser);
       if (currentUser?.email) {
         const users = { email: currentUser?.email };
         axiosPublic

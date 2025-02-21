@@ -14,7 +14,6 @@ const Modal = ({ isOpen, setIsOpen, refetch }) => {
       description,
       status,
     };
-    console.log(taskData);
     try {
       await axiosInstance.post(`/tasks`, taskData);
     } catch (err) {
