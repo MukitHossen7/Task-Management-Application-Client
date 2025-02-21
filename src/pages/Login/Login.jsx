@@ -3,22 +3,28 @@ import { useForm } from "react-hook-form";
 import { FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoEyeSharp } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import loginImg from "../../assets/undraw_fingerprint_kdwq.svg";
 import { AuthContext } from "../../providers/AuthProvider";
 import toast from "react-hot-toast";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 const Login = () => {
-  const { loginUsers, googleUser } = useContext(AuthContext);
+  const { loginUsers, googleUser, user } = useContext(AuthContext);
   const [signToggle, setSignToggle] = useState(false);
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from.pathname || "/";
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
+
+  if (user) {
+    <Navigate to={from} replace={true}></Navigate>;
+  }
   const handleLogin = async (data) => {
     const email = data.email;
     const password = data.password;
@@ -26,7 +32,7 @@ const Login = () => {
     try {
       await loginUsers(email, password);
       toast.success("Login successfully");
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (error) {
       console.error(error);
       toast.error("Invalid Credential Email/Password");
@@ -39,7 +45,7 @@ const Login = () => {
     try {
       const { user } = await googleUser();
       toast.success("Google Login successful");
-      navigate("/");
+      navigate(from, { replace: true });
       const userData = {
         name: user?.displayName,
         email: user?.email,
