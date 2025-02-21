@@ -3,6 +3,7 @@ import Column from "../../components/Column/Column";
 import Modal from "../../components/Modal/Modal";
 import useAxiosInstance from "../../hooks/useAxiosInstance";
 import { useQuery } from "@tanstack/react-query";
+import { MdOutlineAdd } from "react-icons/md";
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,11 +26,12 @@ const Home = () => {
       {/* Add Task Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        className="flex items-center gap-1 px-3 py-2 bg-blue-600 text-gray-50 rounded-lg hover:bg-blue-700"
       >
+        <MdOutlineAdd className="text-xl" />
         Add Task
       </button>
-      <div className="flex flex-col lg:flex-row gap-8 mt-4">
+      <div className="flex flex-col lg:flex-row gap-8 mt-6">
         {columns.map((column) => (
           <Column
             key={column.id}
@@ -45,6 +47,7 @@ const Home = () => {
 };
 
 export default Home;
+
 // import { useState } from "react";
 // import Column from "../../components/Column/Column";
 // import Modal from "../../components/Modal/Modal";

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoEyeSharp } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import loginImg from "../../assets/undraw_fingerprint_kdwq.svg";
 import { AuthContext } from "../../providers/AuthProvider";
 import toast from "react-hot-toast";
@@ -157,16 +157,6 @@ const Login = () => {
               Continue with Google
             </div>
           </button>
-          <p className="px-6 text-sm text-center text-gray-400">
-            Don&apos;t have an account yet?{" "}
-            <Link
-              to="/register"
-              className="hover:underline hover:text-blue-500 text-gray-600"
-            >
-              Register
-            </Link>
-            .
-          </p>
         </div>
       </div>
     </div>

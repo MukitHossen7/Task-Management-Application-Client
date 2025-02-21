@@ -30,7 +30,9 @@ const Modal = ({ isOpen, setIsOpen, refetch }) => {
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-xl font-bold mb-4">Add New Task</h2>
+            <h2 className="text-xl font-semibold text-center mb-4">
+              Add New Task
+            </h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               {/* Title */}
               <input
@@ -68,15 +70,15 @@ const Modal = ({ isOpen, setIsOpen, refetch }) => {
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-500"
+                  className="px-4 py-2 bg-red-500 text-gray-50 rounded-lg hover:bg-red-500"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-600"
+                  className="px-4 py-2 bg-blue-600 text-gray-50 rounded-lg hover:bg-blue-600"
                 >
-                  Submit
+                  Add
                 </button>
               </div>
             </form>

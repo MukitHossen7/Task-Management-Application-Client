@@ -20,16 +20,27 @@ const TaskCard = ({ task, refetch }) => {
       refetch();
     }
   };
-  // console.log(typeof task._id);
   return (
-    <div className="flex items-center justify-between gap-3 cursor-grab bg-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md">
+    <div className="flex items-center justify-between gap-3 cursor-grab bg-gray-50 rounded-lg p-4 shadow-sm hover:shadow-md">
       <div>
         <h3 className="font-medium text-gray-800">{task?.title}</h3>
-        <p className="mt-2 text-sm text-gray-600">{task?.description}</p>
+        <p className="mt-2 text-sm text-gray-700">{task?.description}</p>
+        <p className="mt-2 text-xs text-gray-500">
+          {task?.timestamp
+            ? new Date(task.timestamp).toLocaleString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              })
+            : "No date available"}
+        </p>
       </div>
       <div className="flex items-center gap-1">
         <button onClick={() => setIsOpen(true)}>
-          <FiEdit className="text-blue-600 text-lg" />
+          <FiEdit className="text-blue-700 text-lg" />
         </button>
         <button onClick={() => handleDelete(`${task._id}`)}>
           <MdDeleteForever className="text-red-500 text-2xl" />
